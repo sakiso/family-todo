@@ -144,7 +144,7 @@ export default {
         const userName = user.email; //メアド＋PWだけでアカウントを用意してるのでユーザーネームが存在しないため、アドレスをユーザ名の代わりに表示
         
         const today = new Date()
-        const entryDate = today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate()
+        const entryDate = today.getMonth() + "/" + today.getDate()
 
         //todolistにaddする
         this.todoListRef.add({
