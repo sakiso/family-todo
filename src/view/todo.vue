@@ -44,10 +44,14 @@ todo-list
           </font>
         
         <font 
+          class="entryDate" >
+          {{todo.entry_date}}
+        </font>
+
+        <font 
           class="entryUserName" >
           {{todo.entry_user}}
         </font>
-
 
          <v-btn
            x-small
@@ -69,11 +73,13 @@ todo-list
 </v-row>
 </v-container>
 
+<!--
 <router-link
- to="/signin"
+ to="/signin-by-pw"
  @click="signOut">
  sign out
 </router-link>
+-->
 
 <v-btn
  @click="signOut">
@@ -102,6 +108,14 @@ export default {
 //初期処理
   created: function() {
 
+  //認証状態でない場合、サインイン画面にリダイレクト
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    console.log("not logined")
+    location.href="#/signin";
+  }})
+
+
   //Firestoreからデータ取得
   //todoコレクションへの参照  
   this.todoListRef = db.collection("ToDoList")  
@@ -127,12 +141,16 @@ export default {
       //ログインユーザ名を取得
       const user = firebase.auth().currentUser;
       if (user != null) {
-        const userName = user.displayName;
+        const userName = user.email; //メアド＋PWだけでアカウントを用意してるのでユーザーネームが存在しないため、アドレスをユーザ名の代わりに表示
+        
+        const today = new Date()
+        const entryDate = today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate()
 
         //todolistにaddする
         this.todoListRef.add({
         title:this.newTodoName,// 入力されたnewTodoNameをtitleに
         entry_user:userName,
+        entry_date:entryDate,
         complete_sts:false     // 完了区分はfalse
         })
       }
@@ -176,6 +194,11 @@ export default {
       color:bluegray;
     }
     .entryUserName {
+      color:gray;
+      font-size:80%;
+      padding: 0px 0px 0px 10px;
+    }
+    .entryDate {
       color:gray;
       font-size:80%;
       padding: 0px 0px 0px 10px;

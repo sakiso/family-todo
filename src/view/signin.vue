@@ -28,7 +28,16 @@ export default {
   name: 'signin',
   components: {
   },
-  
+  created : function(){
+    //認証状態（userがnullでない）のときにtodoにリダイレクトする
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+    console.log("logined")
+    location.href="#/todo";
+   }
+  });
+  },
+
   methods: {
     signIn: function () {
       const provider = new firebase.auth.GoogleAuthProvider() //googleを指すもの
