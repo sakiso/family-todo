@@ -16,11 +16,13 @@
      v-model="newTodoName"
      >
     </v-text-field>
-    <v-btn 
+
+   <v-btn 
      small
      color="grey darken-1"
      dark
-     @click="addTodo()">＋ 追加</v-btn>
+     @click="addTodo()">＋ 追加
+   </v-btn>
     <br>
     <br>
   
@@ -66,24 +68,35 @@
 </v-card>
 </v-col>
 </v-row>
-</v-container>
+
+<v-row>
+<v-col>
+  <!--余白用row-->
+</v-col>
+</v-row>
 
 
-
-<br><br>
-<v-btn
- @click="signOut"
- color="grey darken-1"
- dark
- dense>
+<v-row>
+<v-col>
+  <v-btn
+   @click="signOut"
+   color="grey darken-1"
+   dark
+   dense>
   sign-out
 </v-btn>
+</v-col>
+</v-row>
 
-<br><br>
-<router-link
- to="/setting">
- ユーザ名設定
+<v-row>
+<v-col>
+  <router-link
+   to="/setting">
+   ユーザ名設定
 </router-link>
+</v-col>
+</v-row>
+</v-container>
 
 
 </div>
@@ -141,10 +154,12 @@ export default {
       if (user != null) {
         const userName = user.displayName; //settingページで設定されたdisplayNameをFIlestoreから取得        
         const today = new Date()
-        const entryDate = today.getMonth() + "/" + today.getDate()
+        const entryDate = (today.getMonth()+1) + "/" + today.getDate()
+        const timestamp = today.toISOString()
+        console.log(timestamp)
 
         //todolistにsetする（IDにタイムスタンプを設定したいためaddではなくset）
-        this.todoListRef.add({
+        this.todoListRef.doc(timestamp).set({
         title:this.newTodoName,// 入力されたnewTodoNameをtitleに
         entry_user:userName,
         entry_date:entryDate,
