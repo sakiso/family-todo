@@ -1,8 +1,9 @@
 <template>
+<div ID="app">
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="light-blue darken-3"
       dark
       dense>
       Family Todo
@@ -13,6 +14,7 @@
 
 
   </v-app>
+</div>
 </template>
 
 <script>
@@ -27,3 +29,9 @@ export default {
   }),
 };
 </script>
+
+<style>
+    #app {
+    background-color:#eaeef1
+    }
+</style>

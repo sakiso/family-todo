@@ -1,12 +1,7 @@
 <template>
 <div ID="app">
 
-todo-list
-<br>
-  
-<br>
-
- <v-container>
+<v-container>
 <v-row>
 <v-col>
   <v-card class="todo-card"
@@ -73,19 +68,22 @@ todo-list
 </v-row>
 </v-container>
 
-<!--
-<router-link
- to="/signin-by-pw"
- @click="signOut">
- sign out
-</router-link>
--->
 
+
+<br><br>
 <v-btn
- @click="signOut">
-  signout
+ @click="signOut"
+ color="grey darken-1"
+ dark
+ dense>
+  sign-out
 </v-btn>
 
+<br><br>
+<router-link
+ to="/setting">
+ ユーザ名設定
+</router-link>
 
 
 </div>
@@ -141,12 +139,11 @@ export default {
       //ログインユーザ名を取得
       const user = firebase.auth().currentUser;
       if (user != null) {
-        const userName = user.email; //メアド＋PWだけでアカウントを用意してるのでユーザーネームが存在しないため、アドレスをユーザ名の代わりに表示
-        
+        const userName = user.displayName; //settingページで設定されたdisplayNameをFIlestoreから取得        
         const today = new Date()
         const entryDate = today.getMonth() + "/" + today.getDate()
 
-        //todolistにaddする
+        //todolistにsetする（IDにタイムスタンプを設定したいためaddではなくset）
         this.todoListRef.add({
         title:this.newTodoName,// 入力されたnewTodoNameをtitleに
         entry_user:userName,
@@ -203,5 +200,7 @@ export default {
       font-size:80%;
       padding: 0px 0px 0px 10px;
     }
+
+
 
 </style>

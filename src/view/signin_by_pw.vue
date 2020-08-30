@@ -1,11 +1,10 @@
 <template>
   <div class="signin">
-    <h1>This is a sign in page</h1>
-<br>
+    <h2>sign in</h2>
+
 
 <v-container>
-
-<v-row>
+<v-row justify="center">
   <v-col
    cols="8">
     <v-text-field
@@ -17,7 +16,7 @@
 </v-row>
 
 
-<v-row>
+<v-row justify="center">
   <v-col
    cols="8">
     <v-text-field
@@ -44,13 +43,6 @@
 
 </v-container>
 
-<!--
-<br>
-    <router-link to="/todo" class="no-line">
-    次の画面へ(メニュー)
-    </router-link>
-<br>
--->
 
 
   </div>

@@ -6,6 +6,7 @@ import router from 'vue-router';
 //import signin  from "./view/signin"
 import signinByPw  from "./view/signin_by_pw"
 import todo  from "./view/todo"
+import setting  from "./view/setting"
 
 //vue-routerをインストール
 Vue.use(router);
@@ -26,7 +27,11 @@ export default new router({
       {
       path: "/todo", //todoリストページ
       component:todo
-      }
+      },
       
+      {
+      path: "/setting", //アカウント情報設定ページ
+      component:setting
+      }
   ]
 });
