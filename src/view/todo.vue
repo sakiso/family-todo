@@ -17,12 +17,16 @@
      >
     </v-text-field>
 
+   <datepicker/>
+
    <v-btn 
      small
-     color="grey darken-1"
+     color="light-blue accent-4"
      dark
      @click="addTodo()">＋ 追加
    </v-btn>
+
+    <br>
     <br>
     <br>
   
@@ -88,6 +92,7 @@
 </v-col>
 </v-row>
 
+<!-- 一度ユーザ名を設定したらもう不要なのでコメントアウトしている
 <v-row>
 <v-col>
   <router-link
@@ -96,6 +101,8 @@
 </router-link>
 </v-col>
 </v-row>
+-->
+
 </v-container>
 
 
@@ -106,6 +113,8 @@
 import {db} from '@/plugins/firebase';
 import firebase from 'firebase/app'
 import "firebase/auth"
+import datepicker from "@/components/datepicker.vue"
+
 export default {
     name:"todo",
     data:function() {
@@ -114,6 +123,10 @@ export default {
               newTodoName : "",
               todoListRef : null
              }
+     },
+
+     components:{
+       datepicker
      },
 
 //初期処理
