@@ -17,7 +17,8 @@
      >
     </v-text-field>
 
-   <datepicker/>
+   <datepicker @datePick="dateSet">
+   </datepicker>
 
    <v-btn 
      small
@@ -26,11 +27,18 @@
      @click="addTodo()">＋ 追加
    </v-btn>
 
-    <br>
-    <br>
-    <br>
-  
+   <br>
+   <br>
+
+   <v-divider></v-divider>
+
+   <br>
+
+
+          <v-row>
     <ul>
+      
+
       <li
        v-for="(todo,key) in todos" :key="key"
       >
@@ -43,15 +51,21 @@
           :class="{done: todo.complete_sts}"> 
           {{todo.title}}
           </font>
-        
+
         <font 
-          class="entryDate" >
-          {{todo.entry_date}}
+          class="appointedDate" >
+          {{todo.appointed_date}}
+          まで
         </font>
 
         <font 
           class="entryUserName" >
           {{todo.entry_user}}
+        </font>
+        
+        <font 
+          class="entryDate" >
+          {{todo.entry_date}}
         </font>
 
          <v-btn
@@ -65,9 +79,11 @@
            削除
          </v-btn>
 
-      </li>
-    </ul>
 
+      </li>
+      
+    </ul>
+</v-row>
   </v-card-text>
 </v-card>
 </v-col>
@@ -121,7 +137,8 @@ export default {
       return{ newTodo : "",
               todos : {},
               newTodoName : "",
-              todoListRef : null
+              todoListRef : null,
+              appointedDate : ""
              }
      },
 
@@ -158,24 +175,31 @@ export default {
 },
 
   methods:{
+
+    dateSet(pickedDate){
+      //datePickerコンポーネントから帰ってきた値(appointedDate)を処理するメソッド
+      console.log(pickedDate)
+      //YYYY-MM-DDで受け取るので、MM-DD形式に変換(09などを9にするためNumberを噛ませる)
+      this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))      
+    },
+
     addTodo(){
       //入力がなければ抜ける
       if(this.newTodoName === ""){ console.log("todo入力なし");return }
-
       //ログインユーザ名を取得
       const user = firebase.auth().currentUser;
       if (user != null) {
-        const userName = user.displayName; //settingページで設定されたdisplayNameをFIlestoreから取得        
-        const today = new Date()
+        const userName  = user.displayName; //settingページで設定されたdisplayNameをFIlestoreから取得        
+        const today     = new Date()
         const entryDate = (today.getMonth()+1) + "/" + today.getDate()
         const timestamp = today.toISOString()
-        console.log(timestamp)
-
+        
         //todolistにsetする（IDにタイムスタンプを設定したいためaddではなくset）
         this.todoListRef.doc(timestamp).set({
         title:this.newTodoName,// 入力されたnewTodoNameをtitleに
         entry_user:userName,
         entry_date:entryDate,
+        appointed_date:this.appointedDate,
         complete_sts:false     // 完了区分はfalse
         })
       }
@@ -220,15 +244,18 @@ export default {
     }
     .entryUserName {
       color:gray;
-      font-size:80%;
-      padding: 0px 0px 0px 10px;
+      font-size:70%;
+      margin-left: 10px;
     }
     .entryDate {
       color:gray;
-      font-size:80%;
-      padding: 0px 0px 0px 10px;
+      font-size:70%;
     }
-
+    .appointedDate{
+      color:#C62828;
+      font-size:85%;
+      margin-left: 15px;
+    }
 
 
 </style>
